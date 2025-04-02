@@ -1,4 +1,4 @@
-Week 8 lab ("Building an Executive Dashboard")
+# Week 8 lab ("Building an Executive Dashboard")
 The lab involves building a pipeline in Azure DevOps with prebuilt code, generating DORA and DevOps metrics, and creating an executive dashboard.
 
 The instructions assume basic familiarity with Azure DevOps (from Week 4) and YAML, as noted in "Lab Prerequisites" (Slide 23). The lab will produce the six key DevOps metrics (deployment frequency, lead time, MTTR, change failure rate, application availability, defect escape rate) used throughout the slides.

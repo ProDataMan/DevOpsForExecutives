@@ -25,7 +25,7 @@ In this Week 8 lab, you’ll build a CI/CD pipeline in Azure DevOps using a preb
    - **Why**: Ensures you have a workspace for the lab (Slide 23).
 
 2. **Fork the Sample Repository**:
-   - Go to the provided GitHub repo: [github.com/example/week8-sample-app](https://github.com/example/week8-sample-app) (see artifacts below).
+   - Go to the provided GitHub repo: [https://github.com/ProDataMan/week8-sample-app](https://github.com/ProDataMan/week8-sample-app) (see artifacts below).
    - Click "Fork" to copy it to your GitHub account.
    - In Azure DevOps, go to "Repos" > "Import a repository":
      - Enter your forked GitHub URL (e.g., `https://github.com/yourusername/week8-sample-app`).

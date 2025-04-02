@@ -43,7 +43,7 @@ In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll e
    - Click "Clone", copy the URL (e.g., `https://dev.azure.com/yourorg/Week4Lab/_git/Week4Lab`).
    - In a new terminal directory: `git clone https://dev.azure.com/yourorg/Week4Lab/_git/Week4Lab`
    - `cd Week4Lab`
-   - **Why**: Accesses your Week 4 repo (Page 18: "Week 4 Lab Recap").
+   - **Why**: Accesses your Week 4 repo (Page 17: "Week 4 Lab Recap").
 
 5. **Add the Sample App Repo as a Remote**:
    - In the `Week4Lab` directory:
@@ -70,7 +70,7 @@ In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll e
 ##### Step 3: Configure the Pipeline
 8. **Update `azure-pipelines.yml`**:
    - In "Repos" > "Files", open `azure-pipelines.yml`.
-   - Replace with (Page 28: "Configuring YAML"):
+   - Replace with (Page 27: "Configuring YAML"):
      ```yaml
      trigger:
        - main
@@ -129,7 +129,7 @@ In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll e
 9. **Run the Pipeline**:
    - Go to "Pipelines" > "Builds", select your pipeline, click "Run".
    - Wait ~5 minutes, check logs (e.g., `LeadTimeMinutes=0`, `ChangeFailureRate=5`) (Page 42).
-   - **Why**: Generates data (Page 43).
+   - **Why**: Generates data (Page 42).
 
 ##### Step 4: Build the Dashboard
 10. **Create Dashboard**:

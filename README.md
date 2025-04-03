@@ -40,14 +40,14 @@ In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll e
 ##### Step 2: Merge Sample App into Your Week 4 Repo
 4. **Clone Your Week 4 Repo Locally**:
    - In Azure DevOps, go to "Repos" > "Files" in your Week 4 project.
-   - Click "Clone", copy the URL (e.g., `https://dev.azure.com/yourorg/Week4Lab/_git/Week4Lab`).
+   - Click "Clone", copy the URL (e.g., [https://dev.azure.com/yourorg/Week4Lab](https://devopsclassroom.visualstudio.com/Week4-Lab-DemoAV)).
    - In a new terminal directory: `git clone https://dev.azure.com/yourorg/Week4Lab/_git/Week4Lab`
    - `cd Week4Lab`
    - **Why**: Accesses your Week 4 repo (Page 17: "Week 4 Lab Recap").
 
 5. **Add the Sample App Repo as a Remote**:
    - In the `Week4Lab` directory:
-     - `git remote add sample https://github.com/yourusername/week8-sample-app.git`
+     - `git remote add sample https://github.com/yourusername/DevOpsForExecutives.git`
      - `git fetch sample`
    - **Why**: Links the sample app for merging.
 
@@ -171,8 +171,8 @@ In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll e
 ---
 
 ### Prerequisite Code and Artifacts
-#### Instructor’s Repo (`week8-sample-app`)
-- Confirmed at [https://github.com/ProDataMan/week8-sample-app](https://github.com/ProDataMan/week8-sample-app):
+#### Instructor’s Repo (`DevOpsForExecutives`)
+- Confirmed at [https://github.com/ProDataMan/DevOpsForExecutives](https://github.com/ProDataMan/DevOpsForExecutives):
   - `index.js`: Node.js app.
   - `package.json`: Dependencies.
   - `test.js`: Test script.

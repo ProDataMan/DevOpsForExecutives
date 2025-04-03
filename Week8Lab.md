@@ -3,10 +3,10 @@
 ## Lab Overview
 
 **Purpose**  
-In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll enhance your Week 4 Azure DevOps project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX` (replace `XX` with your initials) by merging a sample Node.js app from [https://github.com/ProDataMan/week8-sample-app](https://github.com/ProDataMan/week8-sample-app), updating your pipeline to generate DORA and DevOps metrics, and building an executive dashboard. This lab builds on your Week 4 work—preserving user stories and tasks in "Boards"—and prepares you for Week 12’s comprehensive integration.
+In Week 8 of the "DevOps for Executive Leadership" workshop (Page 9), you’ll enhance your Week 4 Azure DevOps project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX` (replace `XX` with your initials) by merging a sample Node.js app from [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8), updating your pipeline to generate DORA and DevOps metrics, and building an executive dashboard. This lab builds on your Week 4 work—preserving user stories and tasks in "Boards"—and prepares you for Week 12’s comprehensive integration.
 
 **What You’ll Accomplish**  
-- Merge the sample app into your Week 4 repo.  
+- Merge the Week 8 sample app into your Week 4 repo.  
 - Update the pipeline to log DORA metrics (e.g., deployment frequency, lead time).  
 - Expand your Week 4 dashboard with metrics visuals.  
 - Interpret results strategically for leadership.
@@ -20,14 +20,14 @@ About **75-105 minutes**:
 - 10-20 min: Wrap-up & reflection  
 
 **Lab Structure**  
-Step-by-step instructions to enhance your Week 4 project, detailed at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week8Lab.md). Refer to Week 4’s setup at [Week4Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week4Lab.md).
+Step-by-step instructions to enhance your Week 4 project, detailed at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md). Refer to Week 4’s setup at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md). For a completed solution, download the contents of [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution) to review the final repo state.
 
 ---
 
 ## Prerequisites
 
 - **Azure DevOps Project**: Your Week 4 project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX` (Page 23).  
-- **Instructor’s Sample App**: [https://github.com/ProDataMan/week8-sample-app](https://github.com/ProDataMan/week8-sample-app) (Page 24).  
+- **Instructor’s Sample App**: [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8) (Page 24).  
 - **Git Basics**: Cloning, branching, merging (see [git-scm.com](https://git-scm.com/)).  
 - **Basic YAML Knowledge**: From Week 4 (Page 23).  
 - **Web Browser**: Chrome, Edge, or Firefox.
@@ -37,21 +37,22 @@ Step-by-step instructions to enhance your Week 4 project, detailed at [https://g
 ## Step 1: Prepare Your Environment
 
 1. **Log In to Your Week 4 Project**  
-   - Go to `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX` (replace `XX` with your initials).  
+   - Go to `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX` (replace `XX` with your initials).
+   - Login as DevOpsStudent@Outlook.com (Ask Instructor for current password)
    - Verify your Week 4 setup: repo (`hello.sh`, `README.md`, `azure-pipelines.yml`), work items in "Boards" (2 user stories, 2 tasks), and "Week4Lab Dashboard".  
    - **Why**: Uses your Week 4 foundation (Page 21: "Why Azure DevOps?").
 
 2. **Fork the Instructor’s Sample App Repo**  
-   - Visit [https://github.com/ProDataMan/week8-sample-app](https://github.com/ProDataMan/week8-sample-app).  
-   - Click "Fork" to copy it to your GitHub account (e.g., `https://github.com/yourusername/week8-sample-app`).  
-   - **Why**: Gets the Node.js app for merging (Page 26: "Forking Repository").
+   - Visit [https://github.com/ProDataMan/DevOpsForExecutives](https://github.com/ProDataMan/DevOpsForExecutives).  
+   - Click "Fork" to copy the entire repo to your GitHub account (e.g., `https://github.com/yourusername/DevOpsForExecutives`). The Week 8 sample app is in the `week8/` folder.  
+   - **Why**: Gets the Node.js app for merging (Page 26: "Forking Repository"). Note: Lab instructions are in `labs/`, but you’ll fork the whole repo.
 
 3. **Clone Your Fork Locally**  
    - Open a terminal (e.g., Git Bash, PowerShell).  
    - Run:  
      ```bash
-     git clone https://github.com/yourusername/week8-sample-app.git
-     cd week8-sample-app
+     git clone https://github.com/yourusername/DevOpsForExecutives.git
+     cd DevOpsForExecutives
      ```
    - **Why**: Prepares the sample code for merging.
 
@@ -72,7 +73,7 @@ Step-by-step instructions to enhance your Week 4 project, detailed at [https://g
 5. **Add the Sample App Repo as a Remote**  
    - Run:  
      ```bash
-     git remote add sample https://github.com/yourusername/week8-sample-app.git
+     git remote add sample https://github.com/yourusername/DevOpsForExecutives.git
      git fetch sample
      ```
    - **Why**: Links the sample app for merging.
@@ -82,20 +83,26 @@ Step-by-step instructions to enhance your Week 4 project, detailed at [https://g
      ```bash
      git checkout -b week8-merge
      ```
-   - Merge:  
+   - Merge only the `week8/` folder:  
      ```bash
-     git merge sample/main --allow-unrelated-histories
+     git checkout sample/main -- week8/*
+     ```
+   - Move files from `week8/` to root (since your repo doesn’t need the subfolder structure):  
+     ```bash
+     mv week8/* .
+     rmdir week8
      ```
    - Resolve conflicts:  
      - If `azure-pipelines.yml` conflicts, keep your Week 4 version for now (you’ll update it next).  
-     - Overwrite `hello.sh` with sample app files (`index.js`, `package.json`, `test.js`).  
+     - Overwrite `hello.sh` with `index.js`, `package.json`, `test.js`.  
+     - Ignore `labs/` and other week folders from the merge.  
    - Commit:  
      ```bash
      git add .
-     git commit -m "Merged Week 8 sample app"
+     git commit -m "Merged Week 8 sample app from week8/"
      git push origin week8-merge
      ```
-   - **Why**: Integrates the Node.js app (Page 26).
+   - **Why**: Integrates the Node.js app (Page 26). Tip: Check [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution) for the expected outcome.
 
 7. **Complete the Merge via Pull Request**  
    - At `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`, go to "Repos" > "Pull Requests".  
@@ -201,7 +208,7 @@ Step-by-step instructions to enhance your Week 4 project, detailed at [https://g
 13. **Test Dashboard**  
     - Edit `index.js` (e.g., add a comment), commit, run pipeline.  
     - Refresh dashboard, confirm updates (e.g., frequency increases, lead time logged) (Page 35).  
-    - **Why**: Ensures real-time functionality.
+    - **Why**: Ensures real-time functionality. Compare with [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution).
 
 ---
 
@@ -226,6 +233,7 @@ Step-by-step instructions to enhance your Week 4 project, detailed at [https://g
 ## Wrap-Up
 
 - Save your work at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`.  
-- Review takeaways (Pages 54-56) and Week 9 preview (Page 57) at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week8Lab.md).  
-- Next: Week 12 will integrate advanced features (see [Week12Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week12Lab.md)).
+- Review takeaways (Pages 54-56) and Week 9 preview (Page 57) at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md).  
+- Download the completed solution from [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution) to compare your results.  
+- Next: Week 12 will integrate advanced features (see [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week12Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week12Lab.md)).
 

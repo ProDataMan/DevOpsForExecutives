@@ -10,7 +10,7 @@ steps:
 
 - script: |
     chmod +x hello.sh
-    ./hello.sh
+    bash hello.sh
   displayName: 'Run Hello Script'
 
 - script: |

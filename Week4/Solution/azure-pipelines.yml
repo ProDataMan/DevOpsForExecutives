@@ -1,7 +1,18 @@
-   trigger:
-     - main
-   pool:
-     vmImage: 'ubuntu-latest'
-   steps:
-   - script: echo "Placeholder pipeline"
-     displayName: 'Initial Run'
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  displayName: 'Checkout Code'
+
+- script: |
+    chmod +x hello.sh
+    ./hello.sh
+  displayName: 'Run Hello Script'
+
+- script: |
+    echo "Pipeline completed at $(date)"
+  displayName: 'Log Completion'

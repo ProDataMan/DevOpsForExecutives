@@ -22,20 +22,20 @@ About **75 minutes**:
 - 15 min: Reflection & optional exercises  
 
 **Lab Structure**  
-Step-by-step guidance with detailed instructions inline. You’ll end with a functional pipeline, work items, and a dashboard in your project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`, setting the stage for Week 8’s metrics-driven lab (Pages 17-21). Refer to the full lab documentation at [https://github.com/ProDataMan/DevOpsForExecutives](https://github.com/ProDataMan/DevOpsForExecutives).
+Step-by-step guidance with detailed instructions inline. You’ll end with a functional pipeline, work items, and a dashboard in your project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`, setting the stage for Week 8’s metrics-driven lab (Pages 17-21). Refer to this lab at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md). For a completed solution, download the contents of [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4/solution) to review the final repo state.
 
 ---
 
 ## Step 1: Setting Up Azure DevOps Project
 
-- Sign in or create Microsoft account
-- Access dev.azure.com
+- Sign in with provided credentials
+- Access DevOpsClassroom.VisualStudio.com
 - Create a new project
 - Choose project name & process
 
 **Detailed Instructions:**  
-- **Sign in or create Microsoft account**: Use an existing Microsoft account or sign up at [azure.microsoft.com/free](https://azure.microsoft.com/free). Log in at [dev.azure.com](https://dev.azure.com/).  
-- **Access dev.azure.com**: Open your browser, go to [dev.azure.com](https://dev.azure.com/). Use the organization `devopsclassroom` (or sign in to see it).  
+- **Sign in with provided credentials**: Open your browser, go to [DevOpsClassroom.VisualStudio.com](https://DevOpsClassroom.VisualStudio.com), and log in as `DevOpsStudent@Outlook.com`. Ask the instructor for the current password.  
+- **Access DevOpsClassroom.VisualStudio.com**: Once logged in, you’ll see the `DevOpsClassroom` organization.  
 - **Create a new project**: Click "New Project" (top-right).  
   - Name: "Week4-Lab-DemoXX" (replace `XX` with your initials).  
   - Visibility: Private.  
@@ -66,7 +66,7 @@ Your project is now ready at `https://devopsclassroom.visualstudio.com/Week4-Lab
   #!/bin/bash
   echo "Hello from Week 4 Lab!"
   ```
-  Commit: "Added hello script".  
+  Commit: "Added hello script". Alternatively, copy this from [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4).  
 - **Commit changes**: Ensure both files are in `main`.  
 
 This repo provides a baseline for the pipeline (Page 18: "Code checkout from repository").
@@ -104,7 +104,7 @@ This repo provides a baseline for the pipeline (Page 18: "Code checkout from rep
       echo "Pipeline completed at $(date)"
     displayName: 'Log Completion'
   ```
-  Save and commit to `main`: "Added Week 4 pipeline".  
+  Save and commit to `main`: "Added Week 4 pipeline". You can also copy this from [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4).  
 - **Run pipeline and check logs**: Click "Run". Wait ~2-3 minutes. Check logs:  
   - "Checkout Code": Code pulled.  
   - "Run Hello Script": "Hello from Week 4 Lab!".  
@@ -173,7 +173,7 @@ These work items prepare for Week 8’s dashboard (Page 17).
     - Save.  
   - Link to widget, title "Open Stories" (shows count, e.g., 2).  
   - Save dashboard (Page 33: "Adding Widgets").  
-- **Test dashboard updates**: Edit `hello.sh` (e.g., `echo "Hello again!"`), commit, run pipeline. Refresh dashboard: Build History updates, Open Stories stays at 2.  
+- **Test dashboard updates**: Edit `hello.sh` (e.g., `echo "Hello again!"`), commit, run pipeline. Refresh dashboard: Build History updates, Open Stories stays at 2. Compare with [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4/solution).  
 
 This simple dashboard is a starting point for Week 8 (Page 35: "Testing Dashboard").
 
@@ -220,5 +220,7 @@ These exercises enrich data for Week 8 and Week 12’s advanced dashboards at [h
 **Reflection Prompts:**  
 - **Biggest Takeaway**: Which feature (pipeline, work items, dashboard) feels most valuable for oversight?  
 - **Potential Uses in Your Org**: How could dashboards or pipelines improve visibility or automation?  
-- **Next Steps for Week 8**: In Week 8 (Page 9, see [Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week8Lab.md)), you’ll merge a Node.js app and add metrics like lead time. How might this dashboard evolve?  
-- **Dashboard Expansion Ideas**: What metrics (e.g., failures, trends) could enhance this for Week 12’s holistic view (see [Week12Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/Week12Lab.md))?  
+- **Next Steps for Week 8**: In Week 8 (Page 9, see [labs/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md)), you’ll merge a Node.js app and add metrics like lead time. How might this dashboard evolve?  
+- **Dashboard Expansion Ideas**: What metrics (e.g., failures, trends) could enhance this for Week 12’s holistic view (see [labs/Week12Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week12Lab.md))?  
+
+---

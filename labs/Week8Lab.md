@@ -255,19 +255,19 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
     - "Boards" > "Queries":  
       - **Query 1: Task Estimates**  
         - "New Query", name: "Task Estimates".  
-        - Filters: "Work Item Type" = "Task", "State" = "Closed", "Team Project" = `Week4-Lab-DemoXX` (your initials).  
+        - Filters: "Work Item Type" = "Task", "State" = "Closed", "Area Path" = `Week4-Lab-DemoXX` (XX = your initials).  
         - Columns: "Title", "Original Estimate", "Completed Work", "Estimate Accuracy".  
         - Save.  
       - **Query 2: Completed Stories**  
         - "New Query", name: "Completed Stories".  
-        - Filters: "Work Item Type" = "User Story", "State" = "Closed", "Team Project" = `Week4-Lab-DemoXX` (your initials).  
+        - Filters: "Work Item Type" = "User Story", "State" = "Closed", "Area Path" = `Week4-Lab-DemoXX` (XX = your initials).  
         - Columns: "Title", "Story Points".  
         - Save.
 
 13. **Add Metrics Widgets**  
     - Click "Edit":  
       - **Build History**:  
-        - Last 5 builds (bar chart), Pipeline: "Week4Lab", Size: 2x2.  
+        - Last 5 builds (bar chart), Pipeline: "Week4Lab"  
       - **Build Duration**:  
         - Add "Chart for Work Items", manually note `BuildDurationSeconds` from "Log Metrics" (e.g., `X` seconds).  
         - Chart Type: Line chart (single point), Size: 2x2, save.  

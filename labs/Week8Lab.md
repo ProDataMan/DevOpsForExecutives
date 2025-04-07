@@ -21,14 +21,14 @@ About **90-120 minutes**:
 - 10-15 min: Wrap-up & reflection  
 
 **Lab Structure**  
-Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md). Refer to Week 4 at [labs/Week4Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md). Solution at [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution).
+Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md). Refer to Week 4 at [labs/Week4Lab.md](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md). Solution at [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/Week8/Solution).
 
 ---
 
 ## Prerequisites
 
 - **Azure DevOps Project**: Your Week 4 project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`, where `XX` is your initials (e.g., `JD` for John Doe), currently using the Agile process.  
-- **Sample App**: [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8).  
+- **Sample App**: [Week4 Solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/Week4/Solution).  
 - **Lab Machine**: Provided with Git and Git Bash installed.  
 - **PAT**: Personal Access Token with "Work Items - Read/Write" scope (create one or use instructor-provided `PAT_TOKEN`).  
 - **Custom Process**: "DevOpsClassroom Agile" inherited process with "Estimate Accuracy" (integer, `Custom.EstimateAccuracy`) added to Task type (pre-created by instructor).  
@@ -88,10 +88,10 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
      - Replace `XX` with your initials in the second command.  
    - Copy files:  
      ```bash
-     cp DevOpsForExecutives/week8/index.js Week4Lab/
-     cp DevOpsForExecutives/week8/package.json Week4Lab/
-     cp DevOpsForExecutives/week8/test.js Week4Lab/
-     cp DevOpsForExecutives/week8/azure-pipelines.yml Week4Lab/
+     cp DevOpsForExecutives/Week4/Solution/index.js Week4Lab/
+     cp DevOpsForExecutives/Week4/Solution/package.json Week4Lab/
+     cp DevOpsForExecutives/Week4/Solution/test.js Week4Lab/
+     cp DevOpsForExecutives/Week4/Solution/azure-pipelines.yml Week4Lab/
      ```
    - Upload:  
      ```bash
@@ -102,7 +102,7 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
      ```
 
 7. **Option 2: Download and Upload Manually**  
-   - Go to [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8).  
+   - Go to [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/Week4/Solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/Week4/Solution).  
    - Files:  
      - **`index.js`**:  
        ```javascript
@@ -134,7 +134,7 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
        console.log("Test passed: Express app loaded");
        ```
      - **`azure-pipelines.yml`**: See Step 3.  
-   - Upload: "Repos" > "Files" > "Upload file(s)", select all, "Overwrite", commit: "Uploaded Week 8 sample app files".
+   - Upload: "Repos" > "Files" > "Upload file(s)", select all, "Overwrite", commit: "Uploaded Week 8 sample app files (Week4 Solution)".
 
 ---
 

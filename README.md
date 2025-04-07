@@ -11,7 +11,7 @@ Lab guides are located in the `labs/` folder:
 ## Sample Apps
 Sample apps for each lab are in their respective week folders:
 - [Week 4 Sample App](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4) - Basic script and pipeline.
-  - [Week 4 Solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week4/solution) - Completed Week 4 repo.
+  - [Week 4 Solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/Week4/Solution) - Completed Week 4 repo.
 - [Week 8 Sample App](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8) - Node.js app for merging.
   - [Week 8 Solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week8/solution) - Completed Week 8 repo.
 - [Week 12 Sample App](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week12) - Placeholder for Week 12.

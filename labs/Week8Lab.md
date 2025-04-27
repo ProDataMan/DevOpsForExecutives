@@ -32,7 +32,7 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
 - **Lab Machine**: Provided with Git and Git Bash installed.  
 - **PAT**: Personal Access Token with "Work Items - Read/Write" scope (create one or use instructor-provided `PAT_TOKEN`).  
 - **Custom Process**: "DevOpsClassroom Agile" inherited process with "Estimate Accuracy" (integer, `Custom.EstimateAccuracy`) added to Task type (pre-created by instructor).  
-- **Permissions**: Project Collection Administrator access or instructor assistance to switch processes.  
+- **Permissions**: Project Collection Administrator access or instructor assistance to switch processes. Login as DevOpsStudent@Outlook.com
 - **Web Browser**: Chrome, Edge, or Firefox.
 
 ---

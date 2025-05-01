@@ -275,10 +275,10 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
         - Add "Chart for Work Items", track `TestSuccess` from logs (e.g., 80% over 5 runs).  
         - Chart Type: Pie chart (Success vs. Failure), Size: 2x2, save.  
       - **Story Points Completed**:  
-        - Add "Query Results", Query: "Completed Stories".  
+        - Add "Chart for Work Items", Query: "Completed Stories".  
         - Chart Type: Column chart, Aggregate: Sum "Story Points" (e.g., 4), Size: 2x2, save.  
       - **Estimate Accuracy**:  
-        - Add "Query Results", Query: "Task Estimates".  
+        - Add "Chart for Work Items", Query: "Task Estimates".  
         - Chart Type: Bar chart, Field: "Estimate Accuracy" (e.g., 0, -1), Size: 2x2, save.  
     - Click "Done Editing".
 

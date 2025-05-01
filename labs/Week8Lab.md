@@ -268,10 +268,7 @@ Instructions at [https://github.com/ProDataMan/DevOpsForExecutives/blob/main/lab
     - Click "Edit":  
       - **Build History**:  
         - Last 5 builds (bar chart), Pipeline: "Week4Lab"  
-      - **Build Duration**:  
-        - Add "Chart for Work Items", manually note `BuildDurationSeconds` from "Log Metrics" (e.g., `X` seconds).  
-        - Chart Type: Line chart (single point), Size: 2x2, save.  
-      - **Test Success Rate**:  
+      - **Test Success Rate** (Skip):  
         - Add "Chart for Work Items", track `TestSuccess` from logs (e.g., 80% over 5 runs).  
         - Chart Type: Pie chart (Success vs. Failure), Size: 2x2, save.  
       - **Story Points Completed**:  

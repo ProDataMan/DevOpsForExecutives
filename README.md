@@ -2,6 +2,7 @@
 
 This repository supports the "DevOps for Executive Leadership" workshop, providing lab instructions and sample apps for hands-on exercises. Below are links to all relevant resources.
 Where to go for labs on your personal computer: [https://DevOpsClassroom.VisualStudio.com](https://DevOpsClassroom.VisualStudio.com)
+
 Kahoot Quiz: [https://kahoot.it](https://kahoot.it)
 ## Lab Instructions
 Lab guides are located in the `labs/` folder:

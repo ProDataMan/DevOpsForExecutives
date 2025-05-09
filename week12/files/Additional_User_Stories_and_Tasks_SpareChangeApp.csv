@@ -1,0 +1,49 @@
+User Story ID,User Story Title,Story Points,Task ID,Task Title,Original Estimate (hrs)
+US-01,"As a user, I want to round up purchases to invest spare change.",5,T-01,Create backend service to track transactions and calculate round-up amount,3
+US-01,,,T-02,Integrate with bank API to access transaction data,4
+US-01,,,T-03,Write test cases for round-up logic,2
+US-01,,,T-04,Store round-up history in secure database,3
+US-01,,,T-05,Implement configuration for round-up thresholds,3
+US-01,,,T-06,Add dashboard widget for round-up preview,2
+US-02,"As a user, I want to link my debit card to my brokerage account.",8,T-07,Design UI for linking external accounts,3
+US-02,,,T-08,Build service for token-based account linking,4
+US-02,,,T-09,Implement secure OAuth2 flow with bank partners,4
+US-02,,,T-10,Add webhook listener for account verification,2
+US-02,,,T-11,Write tests for linking and unlinking functionality,3
+US-02,,,T-12,Update audit logs for account linking,2
+US-03,"As a user, I want daily updates on how my investments are performing.",3,T-13,Add investment performance summary module,3
+US-03,,,T-14,Integrate brokerage API to fetch daily performance,4
+US-03,,,T-15,Design email/notification templates,2
+US-03,,,T-16,Add user preferences for notification frequency,2
+US-03,,,T-17,Run security review for API exposure,3
+US-03,,,T-18,Conduct feedback session with early users,2
+US-04,"As a user, I want to set my preferred investment risk level.",5,T-19,Build risk-profile questionnaire,3
+US-04,,,T-20,Design algorithm to classify user risk profiles,4
+US-04,,,T-21,Connect risk levels to stock selection logic,3
+US-04,,,T-22,Add option for adjusting risk profile later,2
+US-04,,,T-23,Run simulations for different risk profiles,4
+US-04,,,T-24,Add risk profile to onboarding wizard,2
+US-05,"As a user, I want to pause or resume automatic round-ups anytime.",2,T-25,Add pause/resume toggle in settings,2
+US-05,,,T-26,Update backend to respect user pause state,3
+US-05,,,T-27,Test scenarios where round-up is paused during transaction,2
+US-05,,,T-28,Notify user of paused round-ups,2
+US-05,,,T-29,Add audit logs for state changes,2
+US-05,,,T-30,QA automation for pause/resume behavior,3
+US-06,"As an admin, I want to view a dashboard of daily investment volume.",3,T-31,Add metrics aggregation job,3
+US-06,,,T-32,Design dashboard view with charts,2
+US-06,,,T-33,Add filtering options by user and category,3
+US-06,,,T-34,Build API for dashboard data,4
+US-06,,,T-35,Write backend tests for accuracy of aggregation,2
+US-06,,,T-36,Deploy feature to staging and test load,3
+US-07,"As a user, I want to select stock categories that reflect my values.",5,T-37,Build UI component for selecting stock categories,3
+US-07,,,T-38,Implement backend logic to save user preferences,3
+US-07,,,T-39,Connect category selection to investment strategy logic,4
+US-07,,,T-40,Validate category selections with mock portfolio,2
+US-07,,,T-41,Write unit tests for category logic,3
+US-07,,,T-42,UX review and iteration with test users,3
+US-08,"As a user, I want to avoid investing in industries I dislike.",3,T-43,Design opt-out mechanism for stock categories,2
+US-08,,,T-44,Update investment engine to exclude blocked categories,3
+US-08,,,T-45,Create preference storage model,2
+US-08,,,T-46,Add toggle switches to mobile settings,3
+US-08,,,T-47,Run compliance check for restricted investing,3
+US-08,,,T-48,Validate with test scenarios,2

@@ -36,7 +36,7 @@ Step-by-step instructions to extend your Week 8 project, detailed at [https://gi
 ---
 # Exercise 1: Populate Project Board
 ## Step 1: Download Import Script and Stories csv
-# 📥 Upload Required Lab Files to Azure DevOps Project Repository
+## 📥 Upload Required Lab Files to Azure DevOps Project Repository
 
 These steps will guide you through downloading the necessary files from GitHub and uploading them to your own Azure DevOps repository (`Week4-Lab-DemoXX`), using your initials in the project name.
 
@@ -87,6 +87,208 @@ These steps will guide you through downloading the necessary files from GitHub a
 You have now uploaded the required lab files to your Azure DevOps project. The pipeline will be able to access these files in the next steps.
 
 Next: Proceed to review or update your `azure-pipelines.yml` to run the script if needed.
+
+# 🛠️ Exercise 2: Update Your Azure Pipeline (Week 12)
+
+These steps will guide you through updating your pipeline YAML file to include importing user stories and updating estimate accuracy in your Azure DevOps project.
+
+---
+
+## 🔹 Step 1: Go to Your Project Repo in Azure DevOps
+
+1. Open your browser and go to:  
+   👉 https://devopsclassroom.visualstudio.com
+
+2. Click on your project:  
+   💡 Example: `Week4-Lab-DemoXX` — where `XX` are your initials.
+
+3. In the left menu, select:  
+   **Repos** → **Files**
+
+---
+
+## 🔹 Step 2: Edit the `azure-pipelines.yml` File
+
+1. In the file list, click on `azure-pipelines.yml`.
+
+2. Click the **“Edit”** button (top right).
+
+3. Delete the existing YAML content.
+
+4. Copy and paste the full code below:
+
+<details>
+<summary>📋 Click to expand and copy YAML</summary>
+
+```yaml
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  PROJECT_NAME: 'Week4-Lab-Demo$(STUDENT_INITIALS)'
+
+steps:
+- checkout: self
+  displayName: 'Checkout Code'
+
+- task: PowerShell@2
+  name: CheckAndImportStories
+  displayName: 'Check for Work Items and Import if Needed'
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "Checking for existing User Stories in project: $(PROJECT_NAME)"
+
+      $uri = "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/wiql?api-version=6.0"
+      $query = @{
+        query = "SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'User Story' AND [System.TeamProject] = '$(PROJECT_NAME)'"
+      } | ConvertTo-Json -Depth 5
+
+      $headers = @{
+        Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(PAT_TOKEN)"))
+        "Content-Type" = "application/json"
+      }
+
+      $response = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -Body $query -ErrorAction Stop
+
+      if ($response.workItems.Count -lt 6) {
+        Write-Host "Less than 6 User Stories found. Importing now..."
+        ./import-workitems.ps1 -ProjectName "$(PROJECT_NAME)" -PatToken "$(PAT_TOKEN)"
+      } else {
+        Write-Host "$($response.workItems.Count) User Stories already exist. Skipping import."
+      }
+
+- script: |
+    echo "Starting build and test..."
+    START_TIME=$(date +%s)
+    npm install
+    npm test
+    END_TIME=$(date +%s)
+    BUILD_DURATION=$(( END_TIME - START_TIME ))
+    echo "##vso[task.setvariable variable=BuildDurationSeconds]$BUILD_DURATION"
+    echo "Build duration: $BUILD_DURATION seconds"
+    if [ $? -eq 0 ]; then
+      echo "##vso[task.setvariable variable=TestSuccess]true"
+      echo "Tests passed"
+    else
+      echo "##vso[task.setvariable variable=TestSuccess]false"
+      echo "Tests failed"
+    fi
+  displayName: 'Build and Test'
+  continueOnError: true
+
+- script: |
+    echo "Packaging application..."
+    mkdir -p dist
+    cp index.js package.json dist/
+    zip -r app.zip dist/
+  displayName: 'Package Application'
+
+- publish: $(System.DefaultWorkingDirectory)/app.zip
+  artifact: 'app'
+  displayName: 'Publish Artifact'
+
+- script: |
+    echo "Fetching tasks and updating Estimate Accuracy..."
+    echo "PAT_TOKEN is set to: [REDACTED]"
+    RESPONSE=$(curl -u :"$PAT_TOKEN" -H "Content-Type: application/json"       "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/wiql?api-version=6.0"       -d "{"query": "SELECT [System.Id], [System.Title], [Microsoft.VSTS.Scheduling.OriginalEstimate], [Microsoft.VSTS.Scheduling.CompletedWork] FROM WorkItems WHERE [System.WorkItemType] = 'Task' AND [System.State] = 'Closed' AND [System.TeamProject] = '$(PROJECT_NAME)'"}"       --silent --show-error)
+    echo "API Response: $RESPONSE"
+    if echo "$RESPONSE" | grep -q "<html>"; then
+      echo "Error: Received HTML redirect, PAT may be invalid or expired"
+      exit 1
+    fi
+    echo "$RESPONSE" | jq -r '.workItems[] | [.id] | join(" ")' > task_ids.txt || { echo "Failed to parse JSON response"; exit 1; }
+    for TASK_ID in $(cat task_ids.txt); do
+      TASK_DATA=$(curl -u :"$PAT_TOKEN" -H "Content-Type: application/json"         "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/workitems/$TASK_ID?api-version=6.0"         --silent --show-error)
+      echo "Task $TASK_ID Data: $TASK_DATA"
+      ORIGINAL_ESTIMATE=$(echo "$TASK_DATA" | jq -r '.fields["Microsoft.VSTS.Scheduling.OriginalEstimate"] // 0')
+      COMPLETED_WORK=$(echo "$TASK_DATA" | jq -r '.fields["Microsoft.VSTS.Scheduling.CompletedWork"] // 0')
+      ESTIMATE_ACCURACY=$(echo "scale=2; $ORIGINAL_ESTIMATE - $COMPLETED_WORK" | bc)
+      echo "Task $TASK_ID: Original=$ORIGINAL_ESTIMATE, Completed=$COMPLETED_WORK, Accuracy=$ESTIMATE_ACCURACY"
+      curl -u :"$PAT_TOKEN" -X PATCH -H "Content-Type: application/json-patch+json"         "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/workitems/$TASK_ID?api-version=6.0"         -d "[{"op": "add", "path": "/fields/Custom.EstimateAccuracy", "value": $ESTIMATE_ACCURACY}]"         --silent --show-error || echo "Failed to update Task $TASK_ID"
+    done
+  displayName: 'Update Task Estimate Accuracy'
+  env:
+    PAT_TOKEN: $(PAT_TOKEN)
+    STUDENT_INITIALS: $(STUDENT_INITIALS)
+
+- script: |
+    echo "Pipeline Metrics:"
+    echo "BuildDurationSeconds=$(BuildDurationSeconds)"
+    echo "TestSuccess=$(TestSuccess)"
+  displayName: 'Log Metrics'
+```
+
+</details>
+
+---
+
+## 🔹 Step 3: Save and Commit Changes
+
+1. Scroll to the bottom of the editor.
+2. Enter a commit message like:  
+   `Updated pipeline to include story/task import and accuracy updates`
+3. Click **“Commit”**.
+
+---
+
+## ✅ Done!
+
+Your pipeline is now updated. The next time it runs, it will:
+- Check for existing User Stories.
+- Import new stories and tasks only if needed.
+- Run the build/test process.
+- Update task estimate accuracy.
+
+# Exercise 3:  Dashboard Updates
+
+## Step 1: Enhance the Dashboard
+
+1. **Create New Queries**  
+   - At `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`, go to "Boards" > "Queries":  
+     - **Query 1: Deployment History**  
+       - Name: "Deployment History".  
+       - Filter: Build, Pipeline = Week4Lab, last 10 runs.  
+       - Columns: Build Number, Status, Duration.  
+       - Save.  
+     - **Query 2: Task Estimates** (from Week 8, reused).  
+
+2. **Update Week 8 Dashboard**  
+   - Go to "Overview" > "Dashboards", open "Week4Lab Dashboard".  
+   - Click "Edit":  
+     - **Keep Existing**: Build History, Lead Time, Pipeline Overview, Task Estimates.  
+     - **Add Deployment History**:  
+       - Add "Query Results" widget.  
+       - Query: "Deployment History".  
+       - Chart Type: Table (shows run status, duration).  
+       - Size: 4x2.  
+     - **Update Pipeline Overview**: Adjust to show last 10 runs for frequency trends.  
+   - Save.  
+   - **Why**: Adds deployment history and leverages Week 4 estimate data.
+
+3. **Test Dashboard**  
+   - Trigger another pipeline run.  
+   - Refresh dashboard:  
+     - Deployment History shows run successes/failures.  
+     - Frequency increases, Lead Time reflects delays, Task Estimates remain static.  
+   - Compare with [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week12/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week12/solution).
+
+---
+
+## Step 2: Validate and Interpret
+
+1. **Validate Metrics**  
+    - Check logs and dashboard:  
+      - Deployment Frequency: ~5-10 runs, varying success.  
+      - Failure Rate: ~50% from Terraform, plus Node.js test failures.  
+      - Lead Time: ~40s+ due to delays.  
+      - Estimate Accuracy: Task 1 (100%), Task 2 (67%) from Week 4.  
+    - **Why**: Confirms rich data for analysis.
+      
+# Exercise 4: Terraform
 
 ## Step 1: Prepare Your Environment
 
@@ -208,50 +410,12 @@ Next: Proceed to review or update your `azure-pipelines.yml` to run the script i
 
 ---
 
-## Step 3: Enhance the Dashboard
+# Exercise 4: Analysis 
 
-7. **Create New Queries**  
-   - At `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX`, go to "Boards" > "Queries":  
-     - **Query 1: Deployment History**  
-       - Name: "Deployment History".  
-       - Filter: Build, Pipeline = Week4Lab, last 10 runs.  
-       - Columns: Build Number, Status, Duration.  
-       - Save.  
-     - **Query 2: Task Estimates** (from Week 8, reused).  
+## Analize Dashboard and Log data
 
-8. **Update Week 8 Dashboard**  
-   - Go to "Overview" > "Dashboards", open "Week4Lab Dashboard".  
-   - Click "Edit":  
-     - **Keep Existing**: Build History, Lead Time, Pipeline Overview, Task Estimates.  
-     - **Add Deployment History**:  
-       - Add "Query Results" widget.  
-       - Query: "Deployment History".  
-       - Chart Type: Table (shows run status, duration).  
-       - Size: 4x2.  
-     - **Update Pipeline Overview**: Adjust to show last 10 runs for frequency trends.  
-   - Save.  
-   - **Why**: Adds deployment history and leverages Week 4 estimate data.
 
-9. **Test Dashboard**  
-   - Trigger another pipeline run.  
-   - Refresh dashboard:  
-     - Deployment History shows run successes/failures.  
-     - Frequency increases, Lead Time reflects delays, Task Estimates remain static.  
-   - Compare with [https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week12/solution](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week12/solution).
-
----
-
-## Step 4: Validate and Interpret
-
-10. **Validate Metrics**  
-    - Check logs and dashboard:  
-      - Deployment Frequency: ~5-10 runs, varying success.  
-      - Failure Rate: ~50% from Terraform, plus Node.js test failures.  
-      - Lead Time: ~40s+ due to delays.  
-      - Estimate Accuracy: Task 1 (100%), Task 2 (67%) from Week 4.  
-    - **Why**: Confirms rich data for analysis.
-
-11. **Interpret Results**  
+1. **Interpret Results**  
     - Strategic insights:  
       - High failure rate (50%) suggests deployment reliability issues.  
       - Long lead times (40s+) indicate optimization needs.  
@@ -260,10 +424,11 @@ Next: Proceed to review or update your `azure-pipelines.yml` to run the script i
     - **Why**: Provides actionable leadership insights.
 
 ---
+# Exercise 5: Being Extra
 
-## Step 5: Plan Azure Alternate
+## Step 1: Plan Azure Alternate
 
-12. **Azure Version Outline**  
+1. **Azure Version Outline**  
     - Replace AWS EC2 with Azure VM:  
       - Use `azurerm_virtual_machine` in Terraform.  
       - Deploy same web app with delays/failures.  

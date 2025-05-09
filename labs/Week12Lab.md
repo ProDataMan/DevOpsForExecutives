@@ -88,7 +88,7 @@ You have now uploaded the required lab files to your Azure DevOps project. The p
 
 Next: Proceed to review or update your `azure-pipelines.yml` to run the script if needed.
 
-# 🛠️ Exercise 2: Update Your Azure Pipeline (Week 12)
+# 🛠️ Exercise 2: Update Your Azure Pipeline
 
 These steps will guide you through updating your pipeline YAML file to include importing user stories and updating estimate accuracy in your Azure DevOps project.
 
@@ -287,8 +287,16 @@ Your pipeline is now updated. The next time it runs, it will:
       - Lead Time: ~40s+ due to delays.  
       - Estimate Accuracy: Task 1 (100%), Task 2 (67%) from Week 4.  
     - **Why**: Confirms rich data for analysis.
-      
-# Exercise 4: Terraform
+
+2. **Interpret Results**  
+    - Strategic insights:  
+      - High failure rate (50%) suggests deployment reliability issues.  
+      - Long lead times (40s+) indicate optimization needs.  
+      - Estimate accuracy shows planning gaps (Task 2 overrun).  
+    - Executive summary: "Frequent but unreliable deploys with planning inaccuracies require process refinement."  
+    - **Why**: Provides actionable leadership insights.
+
+# Exercise 3: Terraform (Advanced / Optional)
 
 ## Step 1: Prepare Your Environment
 
@@ -409,22 +417,7 @@ Your pipeline is now updated. The next time it runs, it will:
    - Check logs for failures and lead times (e.g., ~40s with Terraform + Node.js delays).
 
 ---
-
-# Exercise 4: Analysis 
-
-## Analize Dashboard and Log data
-
-
-1. **Interpret Results**  
-    - Strategic insights:  
-      - High failure rate (50%) suggests deployment reliability issues.  
-      - Long lead times (40s+) indicate optimization needs.  
-      - Estimate accuracy shows planning gaps (Task 2 overrun).  
-    - Executive summary: "Frequent but unreliable deploys with planning inaccuracies require process refinement."  
-    - **Why**: Provides actionable leadership insights.
-
----
-# Exercise 5: Being Extra
+# Exercise 4: Being Extra
 
 ## Step 1: Plan Azure Alternate
 

@@ -6,6 +6,7 @@
 In Week 12 of the "DevOps for Executive Leadership" workshop, you’ll integrate a prebuilt Terraform configuration into your Week 8 Azure DevOps project at `https://devopsclassroom.visualstudio.com/Week4-Lab-DemoXX` (replace `XX` with your initials). This configuration provisions an AWS EC2 instance and deploys a basic web app, intentionally introducing deployment failures and slow deploys. You’ll enhance your Week 8 dashboard to visualize deployment frequency, history, failure rates, and estimate accuracy, providing a comprehensive view for executive oversight. An Azure alternate version will follow once the AWS setup is validated.
 
 **What You’ll Accomplish**  
+- Import Stories and Tasks with varying estimates
 - Integrate a Terraform config to deploy an EC2 instance and web app with failures and delays.  
 - Update your pipeline to trigger Terraform and log advanced metrics.  
 - Enhance your Week 8 dashboard with deployment history, frequency, and estimate accuracy.  
@@ -33,6 +34,59 @@ Step-by-step instructions to extend your Week 8 project, detailed at [https://gi
 - **Git Basics**: Familiarity with cloning, branching, merging.
 
 ---
+# Exercise 1: Populate Project Board
+## Step 1: Download Import Script and Stories csv
+# 📥 Upload Required Lab Files to Azure DevOps Project Repository
+
+These steps will guide you through downloading the necessary files from GitHub and uploading them to your own Azure DevOps repository (`Week4-Lab-DemoXX`), using your initials in the project name.
+
+---
+
+## 🔹 Step 1: Download Files from GitHub
+
+1. Open the following GitHub folder in your browser:  
+   👉 https://github.com/ProDataMan/DevOpsForExecutives/tree/main/week12/files
+
+2. Download both of the following files:
+   - `import-workitems.ps1`
+   - `Additional_User_Stories_and_Tasks_SpareChangeApp.csv`
+
+   You can do this by:
+   - Clicking each filename.
+   - Clicking the **“Download raw file”** button (right-click > “Save as...” recommended).
+
+---
+
+## 🔹 Step 2: Go to Your Azure DevOps Repo
+
+1. Open your browser and sign in to:  
+   👉 https://devopsclassroom.visualstudio.com
+
+2. Navigate to your project:  
+   💡 `Week4-Lab-DemoXX` — where `XX` is your initials (e.g., `Week4-Lab-DemoJD`).
+
+3. In the left sidebar, click **Repos** → **Files**.
+
+---
+
+## 🔹 Step 3: Upload the Files
+
+1. Click the **“Upload file(s)”** button (upper right).
+2. Drag and drop or browse to select both downloaded files:
+   - `import-workitems.ps1`
+   - `Additional_User_Stories_and_Tasks_SpareChangeApp.csv`
+3. Confirm that the **Target folder** is `/` (root of the repo).
+4. In the **Commit message**, enter something like:  
+   `Added import script and user stories/tasks CSV for Week 12`
+5. Click **“Commit”**.
+
+---
+
+## ✅ Done!
+
+You have now uploaded the required lab files to your Azure DevOps project. The pipeline will be able to access these files in the next steps.
+
+Next: Proceed to review or update your `azure-pipelines.yml` to run the script if needed.
 
 ## Step 1: Prepare Your Environment
 

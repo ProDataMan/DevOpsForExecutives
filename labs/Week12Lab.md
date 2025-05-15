@@ -140,26 +140,30 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Checking for existing User Stories in project: $(PROJECT_NAME)"
+      $projectName = "Week4-Lab-Demo$env:STUDENT_INITIALS"
+      Write-Host "Using project name: $projectName"
 
-      $uri = "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/wiql?api-version=6.0"
+      $uri = "https://devopsclassroom.visualstudio.com/$projectName/_apis/wit/wiql?api-version=6.0"
       $query = @{
-        query = "SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'User Story' AND [System.TeamProject] = '$(PROJECT_NAME)'"
+        query = "SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'User Story' AND [System.TeamProject] = '$projectName'"
       } | ConvertTo-Json -Depth 5
 
       $headers = @{
-        Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(PAT_TOKEN)"))
+        Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$env:PAT_TOKEN"))
         "Content-Type" = "application/json"
       }
 
       $response = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -Body $query -ErrorAction Stop
 
-      if ($response.workItems.Count -lt 6) {
-        Write-Host "Less than 6 User Stories found. Importing now..."
-        ./import-workitems.ps1 -ProjectName "$(PROJECT_NAME)" -PatToken "$(PAT_TOKEN)"
+      if ($response.workItems.Count -lt 10) {
+        Write-Host "Less than 10 User Stories found. Importing now..."
+        ./import-workitems.ps1 -STUDENT_INITIALS "$env:STUDENT_INITIALS" -PAT_TOKEN "$env:PAT_TOKEN"
       } else {
         Write-Host "$($response.workItems.Count) User Stories already exist. Skipping import."
       }
+  env:
+    STUDENT_INITIALS: $(STUDENT_INITIALS)
+    PAT_TOKEN: $(PAT_TOKEN)
 
 - script: |
     echo "Starting build and test..."
@@ -194,7 +198,11 @@ steps:
 - script: |
     echo "Fetching tasks and updating Estimate Accuracy..."
     echo "PAT_TOKEN is set to: [REDACTED]"
-    RESPONSE=$(curl -u :"$PAT_TOKEN" -H "Content-Type: application/json"       "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/wiql?api-version=6.0"       -d "{"query": "SELECT [System.Id], [System.Title], [Microsoft.VSTS.Scheduling.OriginalEstimate], [Microsoft.VSTS.Scheduling.CompletedWork] FROM WorkItems WHERE [System.WorkItemType] = 'Task' AND [System.State] = 'Closed' AND [System.TeamProject] = '$(PROJECT_NAME)'"}"       --silent --show-error)
+    PROJECT_NAME="Week4-Lab-Demo${STUDENT_INITIALS}"
+    RESPONSE=$(curl -u :"$PAT_TOKEN" -H "Content-Type: application/json" \
+      "https://devopsclassroom.visualstudio.com/$PROJECT_NAME/_apis/wit/wiql?api-version=6.0" \
+      -d "{\"query\": \"SELECT [System.Id], [System.Title], [Microsoft.VSTS.Scheduling.OriginalEstimate], [Microsoft.VSTS.Scheduling.CompletedWork] FROM WorkItems WHERE [System.WorkItemType] = 'Task' AND [System.State] = 'Closed' AND [System.TeamProject] = '$PROJECT_NAME'\"}" \
+      --silent --show-error)
     echo "API Response: $RESPONSE"
     if echo "$RESPONSE" | grep -q "<html>"; then
       echo "Error: Received HTML redirect, PAT may be invalid or expired"
@@ -202,13 +210,18 @@ steps:
     fi
     echo "$RESPONSE" | jq -r '.workItems[] | [.id] | join(" ")' > task_ids.txt || { echo "Failed to parse JSON response"; exit 1; }
     for TASK_ID in $(cat task_ids.txt); do
-      TASK_DATA=$(curl -u :"$PAT_TOKEN" -H "Content-Type: application/json"         "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/workitems/$TASK_ID?api-version=6.0"         --silent --show-error)
+      TASK_DATA=$(curl -u :"$PAT_TOKEN" -H "Content-Type: application/json" \
+        "https://devopsclassroom.visualstudio.com/$PROJECT_NAME/_apis/wit/workitems/$TASK_ID?api-version=6.0" \
+        --silent --show-error)
       echo "Task $TASK_ID Data: $TASK_DATA"
       ORIGINAL_ESTIMATE=$(echo "$TASK_DATA" | jq -r '.fields["Microsoft.VSTS.Scheduling.OriginalEstimate"] // 0')
       COMPLETED_WORK=$(echo "$TASK_DATA" | jq -r '.fields["Microsoft.VSTS.Scheduling.CompletedWork"] // 0')
       ESTIMATE_ACCURACY=$(echo "scale=2; $ORIGINAL_ESTIMATE - $COMPLETED_WORK" | bc)
       echo "Task $TASK_ID: Original=$ORIGINAL_ESTIMATE, Completed=$COMPLETED_WORK, Accuracy=$ESTIMATE_ACCURACY"
-      curl -u :"$PAT_TOKEN" -X PATCH -H "Content-Type: application/json-patch+json"         "https://devopsclassroom.visualstudio.com/$(PROJECT_NAME)/_apis/wit/workitems/$TASK_ID?api-version=6.0"         -d "[{"op": "add", "path": "/fields/Custom.EstimateAccuracy", "value": $ESTIMATE_ACCURACY}]"         --silent --show-error || echo "Failed to update Task $TASK_ID"
+      curl -u :"$PAT_TOKEN" -X PATCH -H "Content-Type: application/json-patch+json" \
+        "https://devopsclassroom.visualstudio.com/$PROJECT_NAME/_apis/wit/workitems/$TASK_ID?api-version=6.0" \
+        -d "[{\"op\": \"add\", \"path\": \"/fields/Custom.EstimateAccuracy\", \"value\": $ESTIMATE_ACCURACY}]" \
+        --silent --show-error || echo "Failed to update Task $TASK_ID"
     done
   displayName: 'Update Task Estimate Accuracy'
   env:
@@ -220,6 +233,7 @@ steps:
     echo "BuildDurationSeconds=$(BuildDurationSeconds)"
     echo "TestSuccess=$(TestSuccess)"
   displayName: 'Log Metrics'
+
 ```
 
 </details>

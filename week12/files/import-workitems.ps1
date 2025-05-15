@@ -12,18 +12,25 @@ $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$P
 # Check existing stories
 $checkUrl = "$organization/$projectName/_apis/wit/wiql?api-version=6.0"
 $query = @{
-    query = "SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'User Story'"
+    query = "SELECT [System.Id] FROM WorkItems WHERE [System.WorkItemType] = 'User Story' AND [System.TeamProject] = '$projectName'"
 } | ConvertTo-Json -Depth 3
 
+Write-Host "Using project name Local Var: $projectName"
+Write-Host "Using project name PARAMETER: $PROJECT_NAME"
+Write-Host "Query URL: https://devopsclassroom.visualstudio.com/$projectName/_apis/wit/wiql?api-version=6.0"
+
 $response = Invoke-RestMethod -Uri $checkUrl -Method Post -Headers @{Authorization=("Basic $base64AuthInfo")} -ContentType "application/json" -Body $query
-if ($response.workItems.Count -gt 5) {
-    Write-Host "More than 5 user stories exist. Skipping import."
+if ($response.workItems.Count -gt 10) {
+    Write-Host $response.workItems.Count
+    Write-Host "More than 10 user stories exist. ($response.workItems.Count) Skipping import."
     exit 0
 }
 
 # Parse CSV and group tasks under stories
 $data = Import-Csv $csvPath
 $stories = @{}
+
+Write-Host "Stories and tasks to add: $($data.Count)"
 
 foreach ($row in $data) {
     $storyId = $row.'User Story ID'
@@ -40,6 +47,9 @@ foreach ($row in $data) {
     }
 }
 
+
+Write-Host "Stories and tasks to add: $($stories.Count)"
+
 foreach ($storyKey in $stories.Keys) {
     $story = $stories[$storyKey]
     $storyBody = @(
@@ -48,11 +58,12 @@ foreach ($storyKey in $stories.Keys) {
         @{ op = "add"; path = "/fields/Microsoft.VSTS.Scheduling.StoryPoints"; value = [int]$story.points }
     ) | ConvertTo-Json -Depth 5
 
-    $storyResponse = Invoke-RestMethod -Uri "$organization/$projectName/_apis/wit/workitems/\$User%20Story?api-version=6.0" `
+    $storyResponse = Invoke-RestMethod -Uri "$organization/$projectName/_apis/wit/workitems/%24User%20Story?api-version=6.0" `
         -Method Patch -Headers @{Authorization=("Basic $base64AuthInfo")} -ContentType "application/json-patch+json" -Body $storyBody
 
     $parentId = $storyResponse.id
-    Write-Host "Created story $parentId: $($story.title)"
+    
+    Write-Host "Created story ${parentId}: $($story['title'])"
 
     foreach ($task in $story.tasks) {
         $taskBody = @(
@@ -62,7 +73,7 @@ foreach ($storyKey in $stories.Keys) {
             @{ op = "add"; path = "/relations/-"; value = @{ rel = "System.LinkTypes.Hierarchy-Reverse"; url = "$organization/_apis/wit/workItems/$parentId" } }
         ) | ConvertTo-Json -Depth 5
 
-        $taskResponse = Invoke-RestMethod -Uri "$organization/$projectName/_apis/wit/workitems/\$Task?api-version=6.0" `
+        $taskResponse = Invoke-RestMethod -Uri "$organization/$projectName/_apis/wit/workitems/%24Task?api-version=6.0" `
             -Method Patch -Headers @{Authorization=("Basic $base64AuthInfo")} -ContentType "application/json-patch+json" -Body $taskBody
 
         Write-Host "Created task $($taskResponse.id): $($task.title)"

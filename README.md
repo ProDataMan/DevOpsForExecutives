@@ -8,8 +8,8 @@ Kahoot Quiz: [https://kahoot.it](https://kahoot.it)
 Lab guides are located in the `labs/` folder:
 - [Week 4 Lab: Azure DevOps Hands-On](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week4Lab.md) - Set up a basic project, pipeline, and dashboard.
 - [Week 8 Lab: Building an Executive Dashboard](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week8Lab.md) - Enhance Week 4 with metrics and a dashboard.
-- [Week 12 Lab: Comprehensive Integration](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week12Lab.md) - Coming soon, integrates all prior work.
-
+- [Week 12 Lab: Comprehensive Integration](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/Week12Lab.md) - Integrates all prior work.
+- [Capstone](https://github.com/ProDataMan/DevOpsForExecutives/blob/main/labs/capstone.md)
 ## Sample Apps
 Sample apps for each lab are in their respective week folders:
 - [Week 4 Sample App](https://github.com/ProDataMan/DevOpsForExecutives/tree/main/Week4) - Basic script and pipeline.
